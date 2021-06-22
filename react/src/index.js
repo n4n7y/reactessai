@@ -5,18 +5,16 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.css';
 import { UserProvider } from './utils/loginContext';
-import { Router } from 'react-router-dom';
-import { createBrowserHistory } from 'history';
+import { BrowserRouter } from 'react-router-dom';
 
-const history = createBrowserHistory();
 
 ReactDOM.render(
 
-  <Router history={history} basename="/">
+  <BrowserRouter basename="/">
     <UserProvider>
       <App />
     </UserProvider>
-  </Router>
+  </BrowserRouter>
   ,
 
   document.getElementById('root')

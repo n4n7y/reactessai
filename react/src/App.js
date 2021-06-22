@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import {
-  Link,
   Redirect,
   Route,
   Switch,
@@ -14,9 +13,11 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import api from './api/api'
-import CarDetails from './components/car';
+
 import Login from './components/Login';
 import { useUserDispatch, useUserState } from './utils/loginContext';
+import CarItem from './components/CarItem';
+import { CarDetails } from './components/CarDetails';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
@@ -34,6 +35,10 @@ function App() {
   const dispatch = useUserDispatch()
   const classes = useStyles();
   const history = useHistory()
+
+
+
+
   useEffect(() => {
     console.log({ isAuthenticated });
   }, [isAuthenticated])
@@ -44,11 +49,11 @@ function App() {
       <AppBar position="static">
         <Toolbar>
           <IconButton edge="start" onClick={() => {
-                history.push("/")
-              }} className={classes.menuButton} color="inherit" aria-label="menu">
-            <HomeIcon/>
+            history.push("/")
+          }} className={classes.menuButton} color="inherit" aria-label="menu">
+            <HomeIcon />
           </IconButton>
-          <Typography  variant="h6" className={classes.title}>
+          <Typography variant="h6" className={classes.title}>
             Liste Voitures
           </Typography>
           {
@@ -81,8 +86,15 @@ function App() {
 }
 
 function Home() {
-  const { isAuthenticated } = useUserState()
   const [voitures, setVoitures] = useState([])
+
+
+  const [open, setOpen] = React.useState(false);
+  const [selectedValue, setSelectedValue] = useState(null);
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   const getListVoitures = () => {
     api.get('cars').then(
       res => {
@@ -103,17 +115,27 @@ function Home() {
 
   return (
 
-    <div className="container">
-      <ul className="col-md-8">
+    <div className="container d-flex ">
+      <div className="d-flex align-items-evenly flex-wrap">
         {
           voitures.length > 0
             ? React.Children.toArray(
               voitures.map((v) => (
-                <CarDetails value={v} setVoitures={setVoitures} />
+
+                <CarItem value={v} setSelectedValue={setSelectedValue}  setOpen={setOpen} setVoitures={setVoitures} />
               ))
-            ) : null
+            ) :
+            <div className="justify-center">
+              <p>veillez ajouter des voitures dans votre Database</p>
+            </div>
         }
-      </ul>
+      </div>
+      {
+        selectedValue ?
+          <CarDetails selectedValue={selectedValue}  open={open} value={selectedValue} setVoitures={setVoitures} onClose={handleClose} />
+          : null
+      }
+
     </div>
 
   );
@@ -127,4 +149,7 @@ function NoMatch() {
     </div>
   );
 }
+
+
+
 export default App;

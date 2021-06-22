@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
+// import { useForm } from "react-hook-form";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import CssBaseline from "@material-ui/core/CssBaseline";
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 function Login() {
   const classes = useStyles();
-  const [isLoading, setIsLoading] = useState(false);
+  // const [isLoading, setIsLoading] = useState(false);
   // const { register, handleSubmit, errors } = useForm();
   const dispatch = useUserDispatch();
   const history  = useHistory();
@@ -103,9 +103,9 @@ function Login() {
             />
 
 
-            {isLoading ? (
+            {/* {isLoading ? (
               <span className="spinner-border spinner-border-sm mr-1"></span>
-            ) : (
+            ) : ( */}
               <Button
                 type="submit"
                 fullWidth
@@ -116,7 +116,7 @@ function Login() {
               >
                 Login
               </Button>
-            )}
+            {/* )} */}
 
 
           </form>
